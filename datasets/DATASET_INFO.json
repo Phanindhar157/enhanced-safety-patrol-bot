@@ -1,0 +1,54 @@
+{
+  "dataset_overview": {
+    "fire_detection": {
+      "description": "Fire and non-fire images for fire detection training",
+      "location": "datasets/fire_detection/",
+      "format": "Images (JPG, PNG)",
+      "status": "Ready for user data"
+    },
+    "gas_detection": {
+      "description": "Gas sensor array drift dataset for gas detection",
+      "location": "datasets/gas_detection/",
+      "format": "CSV, TXT files",
+      "status": "Ready for user data"
+    },
+    "ppe_compliance": {
+      "description": "PPE compliance detection from PASCAL VOC dataset",
+      "location": "datasets/ppe_compliance/",
+      "format": "Images with annotations",
+      "status": "Ready for user data"
+    },
+    "structural_health": {
+      "description": "Synthetic LiDAR and vibration data for structural health monitoring",
+      "location": "datasets/structural_health/",
+      "format": "NumPy arrays, JSON metadata",
+      "status": "Generated"
+    },
+    "object_detection": {
+      "description": "Object detection from PASCAL VOC dataset",
+      "location": "datasets/object_detection/",
+      "format": "Images with annotations",
+      "status": "Ready for user data"
+    },
+    "line_following": {
+      "description": "Synthetic line following scenarios",
+      "location": "datasets/synthetic/line_following/",
+      "format": "Images",
+      "status": "Generated"
+    }
+  },
+  "training_instructions": {
+    "step_1": "Place your datasets in the appropriate directories",
+    "step_2": "Run: python ml_models/train_advanced_models.py",
+    "step_3": "Models will be saved in models/ directory",
+    "step_4": "Use trained models in Webots simulation"
+  },
+  "dataset_sizes": {
+    "fire_detection": "User provided",
+    "gas_detection": "User provided",
+    "ppe_compliance": "User provided",
+    "structural_health": "200 samples (100 normal, 100 damaged)",
+    "object_detection": "User provided",
+    "line_following": "250 samples (50 per scenario)"
+  }
+}

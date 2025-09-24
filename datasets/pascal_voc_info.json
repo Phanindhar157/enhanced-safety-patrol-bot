@@ -1,0 +1,27 @@
+{
+  "pascal_voc_processing": {
+    "description": "PASCAL VOC 2012 dataset processed for safety patrol bot",
+    "ppe_compliance": {
+      "helmet": "Person images with potential helmet detection",
+      "no_helmet": "Person images without helmet detection",
+      "glasses": "Person images with potential glasses detection",
+      "no_glasses": "Person images without glasses detection",
+      "vest": "Person images with potential safety vest detection",
+      "no_vest": "Person images without safety vest detection",
+      "person": "All person images from PASCAL VOC"
+    },
+    "object_detection": {
+      "people": "Person detection for safety monitoring",
+      "vehicles": "Vehicle detection for obstacle avoidance",
+      "animals": "Animal detection for safety",
+      "obstacles": "Obstacle detection for navigation",
+      "equipment": "Equipment detection for monitoring"
+    }
+  },
+  "usage_notes": [
+    "PPE detection is simplified - real implementation would need more sophisticated detection",
+    "Object categories are mapped from PASCAL VOC classes",
+    "Images may appear in multiple categories if they contain multiple objects",
+    "For better PPE detection, consider using specialized safety equipment datasets"
+  ]
+}

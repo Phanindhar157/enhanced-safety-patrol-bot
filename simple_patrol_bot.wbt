@@ -1,0 +1,263 @@
+#VRML_SIM R2025a utf8
+
+WorldInfo {
+  info [ "Simple Safety Patrol Bot for Webots 2025a" ]
+  basicTimeStep 16
+  coordinateSystem "NUE"
+  gravity 9.81
+}
+
+Viewpoint {
+  orientation -0.198 -0.864 0.461 2.21
+  position 0.231 1.25 -1.59
+}
+
+Background {
+  skyColor [ 0.6 0.7 0.9 ]
+}
+
+Robot {
+  name "simple_patrol_bot"
+  controller "enhanced_patrol_controller"
+  supervisor FALSE
+  
+  children [
+    # Robot body
+    Shape {
+      geometry Box {
+        size 0.2 0.1 0.3
+      }
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        metalness 0.3
+        roughness 0.4
+      }
+    }
+    
+    # Right wheel
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.12 0 0
+      }
+      device [
+        RotationalMotor {
+          name "right_wheel_motor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.05 0 0
+        rotation 0 0 1 1.5708
+        children [
+          Shape {
+            geometry Cylinder {
+              height 0.05
+              radius 0.05
+              subdivision 16
+            }
+            appearance PBRAppearance {
+              baseColor 0.1 0.1 0.1
+              metalness 0.8
+              roughness 0.1
+            }
+          }
+        ]
+      }
+    }
+    
+    # Left wheel
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.12 0 0
+      }
+      device [
+        RotationalMotor {
+          name "left_wheel_motor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.05 0 0
+        rotation 0 0 1 1.5708
+        children [
+          Shape {
+            geometry Cylinder {
+              height 0.05
+              radius 0.05
+              subdivision 16
+            }
+            appearance PBRAppearance {
+              baseColor 0.1 0.1 0.1
+              metalness 0.8
+              roughness 0.1
+            }
+          }
+        ]
+      }
+    }
+    
+    # RGB Camera
+    Camera {
+      name "rgb_camera"
+      translation 0 0.1 0.15
+      rotation 0 1 0 0.1
+      width 64
+      height 64
+      fieldOfView 0.785
+    }
+    
+    # Distance sensors
+    DistanceSensor {
+      name "ds_front"
+      translation 0 0.02 0.18
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    DistanceSensor {
+      name "ds_left"
+      translation 0.12 0.02 0.15
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    DistanceSensor {
+      name "ds_right"
+      translation -0.12 0.02 0.15
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    # Line following sensors
+    DistanceSensor {
+      name "line_sensor_left"
+      translation 0.05 0.01 0.05
+      rotation 1 0 0 1.5708
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    DistanceSensor {
+      name "line_sensor_right"
+      translation -0.05 0.01 0.05
+      rotation 1 0 0 1.5708
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    # LEDs
+    LED {
+      name "led_fire"
+      translation 0 0.1 0.18
+      color 1 0 0
+    }
+    
+    LED {
+      name "led_gas"
+      translation 0 0.1 0.16
+      color 0 1 0
+    }
+  ]
+  
+  physics Physics {
+    density -1
+    mass 5.0
+    centerOfMass [ 0 0 0 ]
+    inertiaMatrix [ 0.1 0.1 0.1 0 0 0 ]
+  }
+  
+  boundingObject Box {
+    size 0.2 0.1 0.3
+  }
+}
+
+# Floor
+Solid {
+  translation 0 0 0
+  children [
+    Shape {
+      geometry Plane {
+        size 5 5
+      }
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+      }
+    }
+    
+    # Line for the bot to follow
+    Shape {
+      geometry Box {
+        size 1.5 0.001 0.1
+      }
+      appearance PBRAppearance {
+        baseColor 0 0 0
+      }
+    }
+  ]
+}
+
+# Obstacles
+Solid {
+  translation -0.5 0.15 0.5
+  children [
+    Shape {
+      geometry Box {
+        size 0.3 0.3 0.3
+      }
+      appearance PBRAppearance {
+        baseColor 0.7 0.7 0.7
+      }
+    }
+  ]
+}
+
+Solid {
+  translation 0.5 0.15 0.5
+  children [
+    Shape {
+      geometry Box {
+        size 0.3 0.3 0.3
+      }
+      appearance PBRAppearance {
+        baseColor 0.7 0.7 0.7
+      }
+    }
+  ]
+}
+
+# Fire source
+Solid {
+  translation 0.5 0.15 -0.5
+  children [
+    Shape {
+      geometry Cylinder {
+        height 0.3
+        radius 0.1
+      }
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        emissiveColor 1 0 0
+      }
+    }
+  ]
+  recognitionColors [ 1 0 0 ]
+}
+
+# Gas source
+Solid {
+  translation -0.5 0.15 -0.5
+  children [
+    Shape {
+      geometry Cylinder {
+        height 0.3
+        radius 0.1
+      }
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        emissiveColor 0 1 0
+      }
+    }
+  ]
+  recognitionColors [ 0 1 0 ]
+}
+

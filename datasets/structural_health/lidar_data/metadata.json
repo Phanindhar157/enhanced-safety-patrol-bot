@@ -1,0 +1,21 @@
+{
+  "description": "Synthetic LiDAR point cloud data for structural health monitoring",
+  "normal_samples": 100,
+  "damaged_samples": 100,
+  "point_cloud_size": 1024,
+  "features": [
+    "x",
+    "y",
+    "z",
+    "intensity",
+    "normal_x",
+    "normal_y",
+    "normal_z"
+  ],
+  "damage_types": [
+    "cracks",
+    "corrosion",
+    "deformation",
+    "missing_parts"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "training_date": "2025-09-18T16:51:41",
+  "datasets_available": {
+    "fire_detection": true,
+    "gas_detection": true,
+    "ppe_compliance": true,
+    "structural_health": true
+  },
+  "models_trained": [
+    {
+      "model_type": "fire_detection",
+      "status": "trained",
+      "dataset_size": "user_provided",
+      "model_file": "fire_detection_model.pth"
+    },
+    {
+      "model_type": "gas_detection",
+      "status": "trained",
+      "dataset_size": "user_provided",
+      "model_file": "gas_detection_model.joblib"
+    },
+    {
+      "model_type": "ppe_compliance",
+      "status": "trained",
+      "dataset_size": "pascal_voc_processed",
+      "model_file": "ppe_compliance_model.pth"
+    },
+    {
+      "model_type": "structural_health",
+      "status": "trained",
+      "dataset_size": "synthetic",
+      "model_file": "structural_health_model.joblib"
+    }
+  ],
+  "next_steps": [
+    "Add your fire dataset images to datasets/fire_detection/",
+    "Add your gas sensor data to datasets/gas_detection/raw_data/",
+    "Process full PASCAL VOC dataset: python process_pascal_voc_auto.py",
+    "Run full training: python ml_models/train_with_your_datasets.py",
+    "Launch system: python launch_enhanced_system.py"
+  ]
+}

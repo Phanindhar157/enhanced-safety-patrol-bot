@@ -1,0 +1,97 @@
+# Enhanced Safety Patrol Bot - Git Ignore File
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Webots
+*.wbt~
+*.wbt.bak
+
+# Model files (large files - consider Git LFS)
+models/*.pth
+models/*.joblib
+models/*.h5
+models/*.pkl
+
+# Dataset files (large files - consider Git LFS)
+datasets/fire_detection/fire/*.png
+datasets/fire_detection/fire/*.jpg
+datasets/fire_detection/no_fire/*.png
+datasets/fire_detection/no_fire/*.jpg
+datasets/ppe_compliance/*/*.jpg
+datasets/ppe_compliance/*/*.png
+datasets/object_detection/*/*.jpg
+datasets/object_detection/*/*.png
+datasets/structural_health/*/*.npy
+datasets/synthetic/line_following/*.png
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Configuration files with sensitive data
+config.ini
+secrets.json
+.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json

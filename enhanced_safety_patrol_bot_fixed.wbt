@@ -1,0 +1,528 @@
+#VRML_SIM R2025a utf8
+
+# Enhanced Multi-Sensor Safety Patrol Bot for Industrial Environments
+# Comprehensive safety monitoring with advanced sensor fusion
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+
+WorldInfo {
+  info [
+    "Enhanced Multi-Sensor Safety Patrol Bot for Industrial Safety Monitoring"
+    "Features: Fire Detection, Gas Monitoring, PPE Compliance, Structural Health"
+  ]
+  basicTimeStep 16
+  coordinateSystem "NUE"
+  gravity 9.81
+}
+
+Viewpoint {
+  orientation -0.198 -0.864 0.461 2.21
+  position 0.231 1.25 -1.59
+}
+
+Background {
+  skyColor [ 0.6 0.7 0.9 ]
+}
+
+TexturedBackgroundLight {}
+
+Robot {
+  name "enhanced_safety_patrol_bot"
+  controller "enhanced_patrol_controller"
+  supervisor FALSE
+  
+  children [
+    DEF BOT_BASE Solid {
+      translation 0 0.05 0
+      children [
+        # Main robot body
+        Shape {
+          geometry Box {
+            size 0.25 0.12 0.35
+          }
+          appearance PBRAppearance {
+            baseColor 0.1 0.1 0.2
+            metalness 0.3
+            roughness 0.4
+          }
+        }
+        
+        # Right wheel
+        DEF RIGHT_WHEEL HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+            anchor -0.12 0 0
+          }
+          device [
+            RotationalMotor {
+              name "right_wheel_motor"
+            }
+          ]
+          endPoint Solid {
+            translation -0.05 0 0
+            rotation 0 0 1 1.5708
+            children [
+              Shape {
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.05
+                  subdivision 16
+                }
+                appearance PBRAppearance {
+                  baseColor 0.1 0.1 0.1
+                  metalness 0.8
+                  roughness 0.1
+                }
+              }
+            ]
+          }
+        }
+        
+        # Left wheel
+        DEF LEFT_WHEEL HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+            anchor 0.12 0 0
+          }
+          device [
+            RotationalMotor {
+              name "left_wheel_motor"
+            }
+          ]
+          endPoint Solid {
+            translation 0.05 0 0
+            rotation 0 0 1 1.5708
+            children [
+              Shape {
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.05
+                  subdivision 16
+                }
+                appearance PBRAppearance {
+                  baseColor 0.1 0.1 0.1
+                  metalness 0.8
+                  roughness 0.1
+                }
+              }
+            ]
+          }
+        }
+      ]
+      recognitionColors [ 1 0 0 ]
+    }
+  ]
+  
+  physics Physics {
+    density -1
+    mass 5.0
+    centerOfMass [ 0 0 0 ]
+    inertiaMatrix [ 0.1 0.1 0.1 0 0 0 ]
+  }
+  
+  boundingObject DEF BOT_BASE Solid {
+    translation 0 0.05 0
+    children [
+      Shape {
+        geometry Box {
+          size 0.25 0.12 0.35
+        }
+      }
+    ]
+  }
+  
+  devices [
+    # RGB Camera for Computer Vision
+    Camera {
+      name "rgb_camera"
+      translation 0 0.1 0.15
+      rotation 0 1 0 0.1
+      width 64
+      height 64
+      fieldOfView 0.785
+    }
+    
+    # Thermal Camera
+    Camera {
+      name "thermal_camera"
+      translation 0 0.1 0.15
+      rotation 0 1 0 0.1
+      width 32
+      height 32
+      fieldOfView 0.785
+      recognition Enable
+    }
+    
+    # LiDAR for 3D mapping
+    Lidar {
+      name "lidar"
+      translation 0 0.2 0
+      rotation 0 1 0 1.5708
+      horizontalFov 6.28
+      verticalFov 0.261
+      numberOfLayers 4
+      numberOfPoints 1024
+      near 0.05
+      far 10.0
+      resolution 0.01
+    }
+    
+    # Distance Sensors
+    DistanceSensor {
+      name "ds_right"
+      translation -0.12 0.02 0.15
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    DistanceSensor {
+      name "ds_left"
+      translation 0.12 0.02 0.15
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    DistanceSensor {
+      name "ds_front_right"
+      translation -0.06 0.02 0.18
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    DistanceSensor {
+      name "ds_front_left"
+      translation 0.06 0.02 0.18
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    DistanceSensor {
+      name "ds_front"
+      translation 0 0.02 0.18
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    DistanceSensor {
+      name "ds_back"
+      translation 0 0.02 -0.18
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    DistanceSensor {
+      name "ds_back_right"
+      translation -0.12 0.02 -0.15
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    # Gas Sensor
+    Receiver {
+      name "gas_sensor"
+    }
+    
+    # Line Following Sensors
+    DistanceSensor {
+      name "line_sensor_right"
+      translation -0.05 0.01 0.05
+      rotation 1 0 0 1.5708
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    DistanceSensor {
+      name "line_sensor_left"
+      translation 0.05 0.01 0.05
+      rotation 1 0 0 1.5708
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    DistanceSensor {
+      name "line_sensor_center"
+      translation 0 0.01 0.05
+      rotation 1 0 0 1.5708
+      lookupTable [ 0 0.5 0.01 ]
+      type "infra-red"
+    }
+    
+    # LEDs for visual feedback
+    LED {
+      name "led_fire"
+      translation 0 0.1 0.18
+      color 1 0 0
+    }
+    
+    LED {
+      name "led_gas"
+      translation 0 0.1 0.16
+      color 0 1 0
+    }
+    
+    LED {
+      name "led_ppe"
+      translation 0 0.1 0.14
+      color 0 0 1
+    }
+    
+    LED {
+      name "led_emergency"
+      translation 0 0.1 0.12
+      color 1 1 0
+    }
+  ]
+}
+
+# Industrial Environment
+Solid {
+  translation 0 0 0
+  children [
+    # Floor
+    Shape {
+      geometry Plane {
+        size 10 10
+      }
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        textureTransform TextureTransform {
+          scale 5 5
+        }
+      }
+    }
+    
+    # Line for the bot to follow
+    Shape {
+      geometry Box {
+        size 1.5 0.001 0.1
+      }
+      appearance PBRAppearance {
+        baseColor 0 0 0
+      }
+    }
+  ]
+}
+
+# Chemical Storage Tank 1
+Solid {
+  translation -2 0.5 2
+  name "chemical_tank_1"
+  children [
+    Shape {
+      geometry Cylinder {
+        height 1
+        radius 0.5
+      }
+      appearance PBRAppearance {
+        baseColor 0.2 0.8 0.2
+        metalness 0.3
+        roughness 0.4
+      }
+    }
+  ]
+  recognitionColors [ 0.2 0.8 0.2 ]
+}
+
+# Chemical Storage Tank 2
+Solid {
+  translation 2 0.5 2
+  name "chemical_tank_2"
+  children [
+    Shape {
+      geometry Cylinder {
+        height 1
+        radius 0.5
+      }
+      appearance PBRAppearance {
+        baseColor 0.2 0.8 0.2
+        metalness 0.3
+        roughness 0.4
+      }
+    }
+  ]
+  recognitionColors [ 0.2 0.8 0.2 ]
+}
+
+# Manufacturing Equipment
+Solid {
+  translation 0 0.3 3
+  name "manufacturing_equipment"
+  children [
+    Shape {
+      geometry Box {
+        size 1.5 0.6 1
+      }
+      appearance PBRAppearance {
+        baseColor 0.5 0.5 0.5
+        metalness 0.7
+        roughness 0.2
+      }
+    }
+  ]
+  recognitionColors [ 0.5 0.5 0.5 ]
+}
+
+# Storage Shelf 1
+Solid {
+  translation -3 0.4 -1
+  name "storage_shelf_1"
+  children [
+    Shape {
+      geometry Box {
+        size 0.5 0.8 1.5
+      }
+      appearance PBRAppearance {
+        baseColor 0.6 0.4 0.2
+        metalness 0.2
+        roughness 0.6
+      }
+    }
+  ]
+  recognitionColors [ 0.6 0.4 0.2 ]
+}
+
+# Storage Shelf 2
+Solid {
+  translation 3 0.4 -1
+  name "storage_shelf_2"
+  children [
+    Shape {
+      geometry Box {
+        size 0.5 0.8 1.5
+      }
+      appearance PBRAppearance {
+        baseColor 0.6 0.4 0.2
+        metalness 0.2
+        roughness 0.6
+      }
+    }
+  ]
+  recognitionColors [ 0.6 0.4 0.2 ]
+}
+
+# Fire Source (for testing)
+Solid {
+  translation 1.5 0.15 -2
+  name "fire_source"
+  children [
+    Shape {
+      geometry Cylinder {
+        height 0.3
+        radius 0.1
+      }
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        emissiveColor 1 0 0
+      }
+    }
+  ]
+  recognitionColors [ 1 0 0 ]
+}
+
+# Gas Source (for testing)
+Solid {
+  translation -1.5 0.15 -2
+  name "gas_source"
+  children [
+    Shape {
+      geometry Cylinder {
+        height 0.3
+        radius 0.1
+      }
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        emissiveColor 0 1 0
+      }
+    }
+  ]
+  recognitionColors [ 0 1 0 ]
+}
+
+# Structural Damage (for testing)
+Solid {
+  translation 0 0.1 4
+  name "structural_damage"
+  children [
+    Shape {
+      geometry Box {
+        size 0.3 0.2 0.1
+      }
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        metalness 0.1
+        roughness 0.8
+      }
+    }
+  ]
+  recognitionColors [ 0.8 0.2 0.2 ]
+}
+
+# Person (for PPE testing)
+Solid {
+  translation 2 0.5 -3
+  name "person"
+  children [
+    Shape {
+      geometry Cylinder {
+        height 1
+        radius 0.2
+      }
+      appearance PBRAppearance {
+        baseColor 0.8 0.6 0.4
+        metalness 0.1
+        roughness 0.7
+      }
+    }
+    Shape {
+      geometry Box {
+        size 0.3 0.2 0.1
+      }
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        metalness 0.3
+        roughness 0.5
+      }
+    }
+  ]
+  recognitionColors [ 0.8 0.6 0.4 ]
+}
+
+# Fire Extinguisher
+Solid {
+  translation -2 0.2 0
+  name "fire_extinguisher"
+  children [
+    Shape {
+      geometry Cylinder {
+        height 0.4
+        radius 0.1
+      }
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        metalness 0.2
+        roughness 0.6
+      }
+    }
+  ]
+  recognitionColors [ 1 0 0 ]
+}
+
+# Emergency Exit
+Solid {
+  translation 0 0.5 -4
+  name "emergency_exit"
+  children [
+    Shape {
+      geometry Box {
+        size 1 1 0.1
+      }
+      appearance PBRAppearance {
+        baseColor 0 1 1
+        metalness 0.1
+        roughness 0.8
+      }
+    }
+  ]
+  recognitionColors [ 0 1 1 ]
+}
+

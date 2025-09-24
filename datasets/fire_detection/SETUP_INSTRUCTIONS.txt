@@ -1,0 +1,18 @@
+
+    FIRE DATASET SETUP INSTRUCTIONS:
+    
+    1. Place your fire images in: datasets/fire_detection/fire/
+    2. Place your non-fire images in: datasets/fire_detection/no_fire/
+    3. If you have thermal images, place them in: datasets/fire_detection/thermal/
+    
+    Expected structure:
+    datasets/fire_detection/
+    ├── fire/              # Fire images (JPG, PNG)
+    ├── no_fire/           # Non-fire images (JPG, PNG)
+    └── thermal/           # Thermal images (optional)
+    
+    The system will automatically:
+    - Validate image formats
+    - Create train/validation/test splits
+    - Generate thermal data if not available
+    

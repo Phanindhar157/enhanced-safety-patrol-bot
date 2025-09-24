@@ -1,0 +1,19 @@
+{
+  "description": "Synthetic vibration data for structural health monitoring",
+  "normal_samples": 100,
+  "damaged_samples": 100,
+  "sampling_rate": 1000,
+  "duration": 10,
+  "features": [
+    "x_acceleration",
+    "y_acceleration",
+    "z_acceleration",
+    "magnitude",
+    "frequency_domain"
+  ],
+  "damage_indicators": [
+    "increased_amplitude",
+    "frequency_shift",
+    "harmonic_distortion"
+  ]
+}

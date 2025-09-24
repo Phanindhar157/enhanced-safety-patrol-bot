@@ -1,0 +1,15 @@
+
+    GAS SENSOR ARRAY DRIFT DATASET SETUP INSTRUCTIONS:
+    
+    1. Place your Gas Sensor Array Drift Dataset files in: datasets/gas_detection/raw_data/
+    
+    Expected files:
+    - Gas sensor data files (CSV, TXT, or other formats)
+    - Any documentation or metadata files
+    
+    The system will automatically:
+    - Parse the gas sensor data
+    - Create standardized CSV format
+    - Generate synthetic data for missing gas types
+    - Create train/validation/test splits
+    

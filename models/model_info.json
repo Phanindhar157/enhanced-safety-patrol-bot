@@ -1,0 +1,49 @@
+{
+  "models_created": {
+    "fire_detection_model.pth": {
+      "type": "CNN",
+      "architecture": "ResNet18",
+      "classes": [
+        "No Fire",
+        "Fire"
+      ],
+      "input_size": "224x224x3"
+    },
+    "gas_detection_model.joblib": {
+      "type": "Random Forest",
+      "n_estimators": 100,
+      "classes": [
+        "Gas Type 1",
+        "Gas Type 2",
+        "Gas Type 3",
+        "Gas Type 4",
+        "Gas Type 5"
+      ],
+      "input_features": 10
+    },
+    "ppe_compliance_model.pth": {
+      "type": "CNN",
+      "architecture": "ResNet18",
+      "classes": [
+        "Helmet",
+        "Glasses",
+        "Vest",
+        "Gloves",
+        "Boots",
+        "Overall"
+      ],
+      "input_size": "224x224x3"
+    },
+    "structural_health_model.joblib": {
+      "type": "Random Forest",
+      "n_estimators": 100,
+      "classes": [
+        "Normal",
+        "Damaged"
+      ],
+      "input_features": 20
+    }
+  },
+  "creation_date": "2025-09-18T17:02:41",
+  "note": "These are placeholder models created for system testing. For production use, train with your actual datasets."
+}

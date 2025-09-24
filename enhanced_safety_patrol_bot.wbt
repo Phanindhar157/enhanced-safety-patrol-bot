@@ -1,0 +1,530 @@
+#VRML_SIM R2025a utf8
+
+# Enhanced Multi-Sensor Safety Patrol Bot for Industrial Environments
+# Comprehensive safety monitoring with advanced sensor fusion
+
+Robot {
+name "enhanced_safety_patrol_bot"
+children [
+DEF BOT_BASE Solid {
+translation 0 0.05 0
+children [
+# Main robot body with professional appearance
+Box {
+size 0.25 0.12 0.35
+appearance PBRAppearance {
+baseColor 0.1 0.1 0.2
+metalness 0.3
+roughness 0.4
+}
+}
+# Sensor housing
+Box {
+translation 0 0.08 0.2
+size 0.2 0.08 0.15
+appearance PBRAppearance {
+baseColor 0.2 0.2 0.3
+metalness 0.5
+roughness 0.3
+}
+}
+# Emergency lights
+Box {
+translation 0 0.1 0.25
+size 0.15 0.02 0.05
+appearance PBRAppearance {
+baseColor 1 0 0
+emissiveColor 1 0 0
+}
+}
+# Right Wheel with enhanced design
+DEF RIGHT_WHEEL Hinge2Joint {
+jointParameters HingeJointParameters {
+axis 0 1 0
+anchor -0.15 0 0
+}
+children [
+Solid {
+translation -0.06 0 0
+rotation 0 0 1 1.5708
+children [
+Cylinder {
+height 0.06
+radius 0.06
+subdivision 20
+appearance PBRAppearance {
+baseColor 0.05 0.05 0.05
+metalness 0.9
+roughness 0.1
+}
+}
+]
+}
+]
+}
+# Left Wheel with enhanced design
+DEF LEFT_WHEEL Hinge2Joint {
+jointParameters HingeJointParameters {
+axis 0 1 0
+anchor 0.15 0 0
+}
+children [
+Solid {
+translation 0.06 0 0
+rotation 0 0 1 1.5708
+children [
+Cylinder {
+height 0.06
+radius 0.06
+subdivision 20
+appearance PBRAppearance {
+baseColor 0.05 0.05 0.05
+metalness 0.9
+roughness 0.1
+}
+}
+]
+}
+]
+}
+]
+recognitionColors [ 1 0 0 ]
+}
+]
+controller "enhanced_patrol_controller"
+supervisor FALSE
+devices [
+# High-resolution RGB Camera for Computer Vision
+Camera {
+name "rgb_camera"
+translation 0 0.1 0.25
+rotation 0 1 0 0.05
+width 128
+height 128
+fieldOfView 0.785
+}
+# Thermal Camera for Fire Detection and Heat Monitoring
+Camera {
+name "thermal_camera"
+translation 0.05 0.1 0.25
+rotation 0 1 0 0.05
+width 64
+height 64
+fieldOfView 0.785
+recognition Enable
+}
+# Secondary RGB Camera for 360-degree monitoring
+Camera {
+name "rear_camera"
+translation 0 -0.1 0.25
+rotation 0 1 0 3.14159
+width 64
+height 64
+fieldOfView 0.785
+}
+# High-resolution LiDAR for 3D mapping and structural scanning
+Lidar {
+name "lidar"
+translation 0 0.15 0
+rotation 0 1 0 1.5708
+horizontalFov 6.28
+verticalFov 0.523
+numberOfLayers 16
+numberOfPoints 2048
+near 0.1
+far 15.0
+resolution 0.005
+}
+# Distance Sensors for obstacle avoidance
+DistanceSensor {
+name "ds_front_center"
+translation 0 0.02 0.2
+lookupTable [ 0 0.8 0.01 ]
+type "infra-red"
+}
+DistanceSensor {
+name "ds_front_left"
+translation -0.08 0.02 0.18
+lookupTable [ 0 0.8 0.01 ]
+type "infra-red"
+}
+DistanceSensor {
+name "ds_front_right"
+translation 0.08 0.02 0.18
+lookupTable [ 0 0.8 0.01 ]
+type "infra-red"
+}
+DistanceSensor {
+name "ds_left"
+translation -0.15 0.02 0.1
+lookupTable [ 0 0.8 0.01 ]
+type "infra-red"
+}
+DistanceSensor {
+name "ds_right"
+translation 0.15 0.02 0.1
+lookupTable [ 0 0.8 0.01 ]
+type "infra-red"
+}
+DistanceSensor {
+name "ds_rear_left"
+translation -0.1 0.02 -0.15
+lookupTable [ 0 0.8 0.01 ]
+type "infra-red"
+}
+DistanceSensor {
+name "ds_rear_right"
+translation 0.1 0.02 -0.15
+lookupTable [ 0 0.8 0.01 ]
+type "infra-red"
+}
+# Line Following Sensors for safety route navigation
+DistanceSensor {
+name "line_sensor_left"
+translation -0.08 0.01 0.05
+rotation 1 0 0 1.5708
+lookupTable [ 0 0.5 0.01 ]
+type "infra-red"
+}
+DistanceSensor {
+name "line_sensor_center"
+translation 0 0.01 0.05
+rotation 1 0 0 1.5708
+lookupTable [ 0 0.5 0.01 ]
+type "infra-red"
+}
+DistanceSensor {
+name "line_sensor_right"
+translation 0.08 0.01 0.05
+rotation 1 0 0 1.5708
+lookupTable [ 0 0.5 0.01 ]
+type "infra-red"
+}
+# Gas and Air Quality Sensors
+Receiver {
+name "gas_sensor_co"
+}
+Receiver {
+name "gas_sensor_h2s"
+}
+Receiver {
+name "gas_sensor_o2"
+}
+Receiver {
+name "air_quality_sensor"
+}
+# Vibration Sensor for structural monitoring
+Accelerometer {
+name "vibration_sensor"
+}
+# GPS for precise positioning
+GPS {
+name "gps"
+}
+# Compass for orientation
+Compass {
+name "compass"
+}
+# LEDs for status indication
+LED {
+name "led_fire"
+translation 0.1 0.1 0.28
+color 1 0 0
+}
+LED {
+name "led_gas"
+translation -0.1 0.1 0.28
+color 0 1 0
+}
+LED {
+name "led_emergency"
+translation 0 0.1 0.28
+color 1 1 0
+}
+LED {
+name "led_ppe_violation"
+translation 0.05 0.1 0.26
+color 1 0.5 0
+}
+LED {
+name "led_structural_alert"
+translation -0.05 0.1 0.26
+color 0 0 1
+}
+# Speaker for audio alerts
+Speaker {
+name "alert_speaker"
+}
+]
+}
+
+WorldInfo {
+info [
+"Enhanced industrial safety patrol environment with comprehensive sensor monitoring."
+]
+basicTimeStep 16
+coordinateSystem "NUE"
+gravity 9.81
+}
+
+Viewpoint {
+orientation -0.198 -0.864 0.461 2.21
+position 0.5 2.0 -2.0
+}
+
+Background {
+skyColor [
+0.4 0.5 0.7
+]
+}
+
+TexturedBackgroundLight {}
+
+# Industrial Floor with Safety Routes
+Solid {
+translation 0 0 0
+children [
+DEF INDUSTRIAL_FLOOR Plane {
+size 10 10
+appearance PBRAppearance {
+baseColor 0.6 0.6 0.6
+textureTransform TextureTransform {
+scale 10 10
+}
+}
+}
+# Main Safety Patrol Route
+Box {
+translation 0 0.001 0
+size 8 0.001 0.2
+appearance PBRAppearance {
+baseColor 0 0 0
+}
+}
+# Emergency Exit Route
+Box {
+translation 2 0.001 2
+size 0.2 0.001 4
+appearance PBRAppearance {
+baseColor 1 0 0
+}
+}
+# Equipment Area Route
+Box {
+translation -2 0.001 -2
+size 4 0.001 0.2
+appearance PBRAppearance {
+baseColor 0 0 1
+}
+}
+]
+}
+
+# Industrial Equipment and Structures
+# Chemical Storage Tanks
+DEF CHEMICAL_TANK_1 Solid {
+translation -3 0.5 1
+children [
+Cylinder {
+height 1
+radius 0.5
+appearance PBRAppearance {
+baseColor 0.8 0.8 0.2
+metalness 0.7
+roughness 0.3
+}
+}
+]
+recognitionColors [ 0.8 0.8 0.2 ]
+}
+
+DEF CHEMICAL_TANK_2 Solid {
+translation -3 0.5 -1
+children [
+Cylinder {
+height 1
+radius 0.5
+appearance PBRAppearance {
+baseColor 0.8 0.8 0.2
+metalness 0.7
+roughness 0.3
+}
+}
+]
+recognitionColors [ 0.8 0.8 0.2 ]
+}
+
+# Manufacturing Equipment
+DEF MANUFACTURING_EQUIPMENT Solid {
+translation 2 0.3 -2
+children [
+Box {
+size 1.5 0.6 1
+appearance PBRAppearance {
+baseColor 0.7 0.7 0.7
+metalness 0.8
+roughness 0.2
+}
+}
+]
+recognitionColors [ 0.7 0.7 0.7 ]
+}
+
+# Storage Shelves
+DEF STORAGE_SHELF_1 Solid {
+translation 3 0.4 1
+children [
+Box {
+size 0.2 0.8 2
+appearance PBRAppearance {
+baseColor 0.5 0.3 0.1
+metalness 0.3
+roughness 0.6
+}
+}
+]
+recognitionColors [ 0.5 0.3 0.1 ]
+}
+
+DEF STORAGE_SHELF_2 Solid {
+translation 3 0.4 -1
+children [
+Box {
+size 0.2 0.8 2
+appearance PBRAppearance {
+baseColor 0.5 0.3 0.1
+metalness 0.3
+roughness 0.6
+}
+}
+]
+recognitionColors [ 0.5 0.3 0.1 ]
+}
+
+# Safety Hazards and Test Objects
+# Fire Source (Overheating Equipment)
+DEF FIRE_SOURCE Solid {
+translation 1 0.2 1
+children [
+Cylinder {
+height 0.4
+radius 0.15
+appearance PBRAppearance {
+baseColor 1 0 0
+emissiveColor 1 0.3 0
+}
+}
+]
+recognitionColors [ 1 0 0 ]
+}
+
+# Gas Leak Source
+DEF GAS_SOURCE Solid {
+translation -1 0.2 -1
+children [
+Cylinder {
+height 0.4
+radius 0.15
+appearance PBRAppearance {
+baseColor 0 1 0
+emissiveColor 0 1 0
+}
+}
+]
+recognitionColors [ 0 1 0 ]
+}
+
+# Structural Damage (Crack in wall)
+DEF STRUCTURAL_DAMAGE Solid {
+translation 4 0.5 0
+children [
+Box {
+size 0.1 1 0.3
+appearance PBRAppearance {
+baseColor 0.3 0.3 0.3
+metalness 0.2
+roughness 0.8
+}
+}
+]
+recognitionColors [ 0.3 0.3 0.3 ]
+}
+
+# Person (for PPE detection testing)
+DEF PERSON Solid {
+translation 0.5 0.5 0.5
+children [
+Cylinder {
+height 1
+radius 0.2
+appearance PBRAppearance {
+baseColor 0.8 0.6 0.4
+metalness 0
+roughness 0.8
+}
+}
+# Helmet (PPE)
+Box {
+translation 0 0.6 0
+size 0.4 0.2 0.4
+appearance PBRAppearance {
+baseColor 1 0 0
+metalness 0.3
+roughness 0.4
+}
+}
+]
+recognitionColors [ 0.8 0.6 0.4 ]
+}
+
+# Obstacles for navigation testing
+DEF OBSTACLE_1 Box {
+translation -2 0.15 2
+size 0.4 0.3 0.4
+appearance PBRAppearance {
+baseColor 0.6 0.6 0.6
+metalness 0.5
+roughness 0.4
+}
+}
+
+DEF OBSTACLE_2 Box {
+translation 2 0.15 -2
+size 0.4 0.3 0.4
+appearance PBRAppearance {
+baseColor 0.6 0.6 0.6
+metalness 0.5
+roughness 0.4
+}
+}
+
+# Emergency Equipment
+DEF FIRE_EXTINGUISHER Solid {
+translation 3 0.1 3
+children [
+Cylinder {
+height 0.2
+radius 0.05
+appearance PBRAppearance {
+baseColor 1 0 0
+metalness 0.3
+roughness 0.4
+}
+}
+]
+recognitionColors [ 1 0 0 ]
+}
+
+DEF EMERGENCY_EXIT Solid {
+translation 4 0.5 0
+children [
+Box {
+size 0.1 1 2
+appearance PBRAppearance {
+baseColor 0 1 0
+emissiveColor 0 0.5 0
+}
+}
+]
+recognitionColors [ 0 1 0 ]
+}

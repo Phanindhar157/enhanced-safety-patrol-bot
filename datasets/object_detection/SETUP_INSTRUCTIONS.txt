@@ -1,0 +1,40 @@
+
+    PASCAL VOC 2012 DATASET SETUP INSTRUCTIONS:
+    
+    IMPORTANT: PASCAL VOC 2012 has a specific structure that needs to be processed!
+    
+    Dataset Structure:
+    pascal_voc_2012/
+    ├── JPEGImages/          # All images (.jpg)
+    ├── Annotations/         # XML annotation files
+    ├── ImageSets/Main/      # Train/val/test splits
+    └── SegmentationClass/   # Segmentation masks
+    
+    AUTOMATIC PROCESSING (RECOMMENDED):
+    1. Download PASCAL VOC 2012 from: https://www.kaggle.com/datasets/gopalbhattrai/pascal-voc-2012-dataset
+    2. Extract the dataset to a folder (e.g., "pascal_voc_2012")
+    3. Run: python datasets/process_pascal_voc.py
+    4. Follow the prompts to specify paths
+    
+    MANUAL PROCESSING (Alternative):
+    1. Extract PASCAL VOC 2012 dataset
+    2. Use the person annotations to identify person images
+    3. Manually categorize images for PPE compliance:
+       - Person images with helmets → datasets/ppe_compliance/helmet/
+       - Person images without helmets → datasets/ppe_compliance/no_helmet/
+       - Person images with glasses → datasets/ppe_compliance/glasses/
+       - Person images without glasses → datasets/ppe_compliance/no_glasses/
+       - Person images with safety vests → datasets/ppe_compliance/vest/
+       - Person images without safety vests → datasets/ppe_compliance/no_vest/
+       - All person images → datasets/ppe_compliance/person/
+    
+    For Object Detection:
+    - Vehicle images → datasets/object_detection/vehicles/
+    - Equipment images → datasets/object_detection/equipment/
+    - Person images → datasets/object_detection/people/
+    - Animal images → datasets/object_detection/animals/
+    - Obstacle images → datasets/object_detection/obstacles/
+    
+    NOTE: PPE detection from PASCAL VOC is limited. For better results, 
+    consider using specialized safety equipment datasets or manual annotation.
+    
